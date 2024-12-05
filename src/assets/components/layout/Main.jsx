@@ -45,7 +45,7 @@ export default function Main() {
     return tags;
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     const newCard = {
@@ -54,19 +54,24 @@ export default function Main() {
       id: cardList.length + 1,
       image: "https://placehold.co/600x400",
       isPublic: formData.isPublic,
-      tags: retrieveTags(),
+      tags: [],
       title: formData.title,
       category: formData.category,
     };
-
-    const newCardList = [...cardList, newCard];
-
-    setCardList(newCardList);
 
     // # Reset Form
     setFormData(formInitialData);
     e.target.publishInput.checked = false;
     e.target.category.value = "";
+
+    await fetch("http://localhost:3000/posts", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(newCard),
+    });
+    fetchPosts();
   }
 
   async function handleCardDelete(id) {
