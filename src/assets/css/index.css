@@ -1,0 +1,13 @@
+body {
+  font-family: sans-serif;
+  background-color: #212529;
+}
+
+.card {
+  max-width: 300px;
+  max-height: 400px;
+}
+
+img {
+  display: inline-block;
+}
