@@ -13,8 +13,8 @@ const formInitialData = {
 };
 
 export default function Main() {
-  async function fetchPosts() {
-    return await fetch("http://localhost:3000/posts")
+  function fetchPosts() {
+    fetch("http://localhost:3000/posts")
       .then((res) => res.json())
       .then((data) => {
         setCardList(data);
@@ -67,6 +67,11 @@ export default function Main() {
     setFormData(formInitialData);
     e.target.publishInput.checked = false;
     e.target.category.value = "";
+  }
+
+  async function handleCardDelete(id) {
+    await fetch("http://localhost:3000/posts/" + id, { method: "DELETE" });
+    fetchPosts();
   }
 
   return (
@@ -162,7 +167,7 @@ export default function Main() {
       <section>
         <div className="container py-4">
           <h2 className="text-light text-center pb-4">Post List</h2>
-          <CardList cardList={cardList} />
+          <CardList cardList={cardList} handleClick={handleCardDelete} />
         </div>
       </section>
     </main>
