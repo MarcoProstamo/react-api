@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import CardList from "../CardList";
 import BadgeList from "../BadgeList";
-import { posts } from "../../data/posts";
 import { uniqueTags as badgeList } from "../../data/uniqueTags";
 
 const formInitialData = {
@@ -14,11 +13,24 @@ const formInitialData = {
 };
 
 export default function Main() {
+  async function fetchPosts() {
+    return await fetch("http://localhost:3000/posts")
+      .then((res) => res.json())
+      .then((data) => {
+        setCardList(data);
+      });
+  }
+
   const [formData, setFormData] = useState(formInitialData);
-  const [cardList, setCardList] = useState([...posts]);
+  const [cardList, setCardList] = useState([]);
+
   useEffect(() => {
     if (formData.isPublic) alert("Public Post!");
   }, [formData.isPublic]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   function handleFormChange(e) {
     const newFormData = {
