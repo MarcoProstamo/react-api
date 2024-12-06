@@ -12,9 +12,12 @@ const formInitialData = {
   category: "",
 };
 
+const url = import.meta.env.VITE_URL;
+console.log(url);
+
 export default function Main() {
   function fetchPosts() {
-    fetch("http://localhost:3000/posts")
+    fetch(url)
       .then((res) => res.json())
       .then((data) => {
         setCardList(data);
@@ -64,7 +67,7 @@ export default function Main() {
     e.target.publishInput.checked = false;
     e.target.category.value = "";
 
-    await fetch("http://localhost:3000/posts", {
+    await fetch(url, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -75,7 +78,7 @@ export default function Main() {
   }
 
   async function handleCardDelete(id) {
-    await fetch("http://localhost:3000/posts/" + id, { method: "DELETE" });
+    await fetch(url + "/" + id, { method: "DELETE" });
     fetchPosts();
   }
 
